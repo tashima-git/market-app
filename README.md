@@ -66,7 +66,7 @@ php artisan db:seed
 
 ## ER図
 
-- `alt` 形式で作成予定（ER図画像やリンクを追加する）
+- ![ER図](./docs/erd.png)
 
 ## URL
 
