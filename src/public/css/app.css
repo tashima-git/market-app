@@ -1,0 +1,102 @@
+/* リセット・共通 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* ヘッダー */
+.header {
+    background-color: #000000;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    /* ロゴ・検索・ボタン群の間隔 */
+}
+
+/* ロゴ */
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+/* 検索バー */
+.search-container {
+    flex-grow: 1;
+    /* 余った幅を取る */
+    margin: 0 100px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+/* ヘッダーアクション（ボタン群） */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* ボタン間隔 */
+}
+
+.header-actions form {
+    margin: 0;
+    /* formの余白消去 */
+}
+
+/* 共通ボタン・リンク */
+.header-btn,
+.header-actions a,
+.header-actions button {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* 出品ボタン */
+.sell-btn {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* ログイン・マイページ・ログアウト */
+.login-btn,
+.mypage-btn,
+.logout-btn {
+    background: none;
+    color: #ffffff;
+}
+
+/* PC用レスポンシブ（1400〜1540px基準） */
+@media (max-width: 1540px) {
+    .header {
+        flex-wrap: wrap;
+    }
+
+    .search-container {
+        flex-basis: 100%;
+        margin: 10px 0 0 0;
+    }
+}
