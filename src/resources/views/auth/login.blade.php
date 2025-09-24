@@ -14,12 +14,12 @@
         @csrf
         <div class="form-group">
             <label for="email">メールアドレス</label>
-            <input type="email" name="email" id="email" placeholder="example@example.com">
+            <input type="email" name="email" id="email">
         </div>
 
         <div class="form-group">
             <label for="password">パスワード</label>
-            <input type="password" name="password" id="password" placeholder="パスワード">
+            <input type="password" name="password" id="password">
         </div>
 
         <button type="submit" class="auth-btn">ログイン</button>

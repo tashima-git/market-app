@@ -14,22 +14,22 @@
         @csrf
         <div class="form-group">
             <label for="name">ユーザー名</label>
-            <input type="text" name="name" id="name" placeholder="ユーザー名を入力">
+            <input type="text" name="name" id="name">
         </div>
 
         <div class="form-group">
             <label for="email">メールアドレス</label>
-            <input type="email" name="email" id="email" placeholder="example@example.com">
+            <input type="email" name="email" id="email">
         </div>
 
         <div class="form-group">
             <label for="password">パスワード</label>
-            <input type="password" name="password" id="password" placeholder="8文字以上">
+            <input type="password" name="password" id="password">
         </div>
 
         <div class="form-group">
             <label for="password_confirmation">確認用パスワード</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="確認用パスワード">
+            <input type="password" name="password_confirmation" id="password_confirmation">
         </div>
 
         <button type="submit" class="auth-btn">登録する</button>
