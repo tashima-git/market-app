@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = [
-        'name',
-    ];
+    protected $fillable = ['category'];
 
-    // 1:N → Item
     public function items()
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsToMany(Item::class, 'category_items')->withTimestamps();
     }
 }

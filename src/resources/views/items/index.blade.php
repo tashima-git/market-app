@@ -10,10 +10,10 @@
 <div class="products-grid">
     @forelse($items as $item)
         <div class="product-card">
-            <a href="{{ route('items.show', ['id' => $item->id]) }}">
+            <a href="{{ route('items.show', ['item' => $item->id]) }}">
                 <div class="product-image">
-                    @if(!empty($item->image))
-                        <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->name }}" style="width:100%; height:100%; object-fit:cover;">
+                    @if(!empty($item->path))
+                        <img src="{{ asset('storage/'.$item->path) }}" alt="{{ $item->name }}" style="width:100%; height:100%; object-fit:cover;">
                     @else
                         画像なし
                     @endif

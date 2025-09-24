@@ -10,24 +10,18 @@ class Purchase extends Model
         'item_id',
         'user_id',
         'payment_method',
-        'purchased_at',
+        'sending_postcode',
+        'sending_address',
+        'sending_building',
     ];
 
-    // 1:1 ← Item
     public function item()
     {
         return $this->belongsTo(Item::class);
     }
 
-    // N:1 ← User
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    // 1:1 → PurchaseAddress
-    public function address()
-    {
-        return $this->hasOne(PurchaseAddress::class);
     }
 }

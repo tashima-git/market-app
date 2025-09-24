@@ -1,7 +1,7 @@
 /* auth.css */
 body {
     font-family: 'Hiragino Kaku Gothic Pro', Meiryo, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     color: #333;
 }
 
@@ -9,9 +9,6 @@ body {
     max-width: 400px;
     margin: 80px auto;
     padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .auth-container h1 {
@@ -43,13 +40,13 @@ body {
 }
 
 .form-group input:focus {
-    border-color: #ff6b6b;
+    border-color: #ff5555;
 }
 
 .auth-btn {
     width: 100%;
     padding: 12px;
-    background-color: #ff6b6b;
+    background-color: #ff5555;
     color: white;
     font-size: 16px;
     border: none;
@@ -59,15 +56,11 @@ body {
     transition: background-color 0.2s;
 }
 
-.auth-btn:hover {
-    background-color: #ff5252;
-}
-
 .auth-container a {
     display: block;
     text-align: center;
     margin-top: 15px;
-    color: #ff6b6b;
+    color: #0073cc;
     text-decoration: none;
     font-size: 14px;
 }

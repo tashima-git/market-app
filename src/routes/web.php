@@ -5,56 +5,52 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\MypageController;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application.
-|
 */
 
 // ----------------------
 // 商品関連
 // ----------------------
-Route::get('/', [ItemController::class, 'index'])->name('items.index');
-Route::get('/item/{id}', [ItemController::class, 'show'])->name('items.show');
+Route::get('/', [ItemController::class, 'index'])->name('items.index');              // PG01 トップ画面
+Route::get('/mylist', [ItemController::class, 'mylist'])->middleware('auth')->name('items.mylist'); // PG02 マイリスト
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');      // PG05 商品詳細
 
 // ----------------------
 // 会員登録
 // ----------------------
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register'); // PG03
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
 // ----------------------
-// ログイン・ログアウト
-// ----------------------
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-
-// ----------------------
-// 商品購入関連（認証必須）
+// 認証必須ルート
 // ----------------------
 Route::middleware('auth')->group(function () {
-    Route::get('/purchase/{item_id}', [PurchaseController::class, 'show'])->name('purchase.show');
-    Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
 
-    Route::get('/purchase/address/{item_id}', [AddressController::class, 'create'])->name('purchase.address.create');
-    Route::post('/purchase/address/{item_id}', [AddressController::class, 'store'])->name('purchase.address.store');
+    // 商品購入関連
+    Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');   // PG06
+    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+    Route::get('/purchase/address/{item}', [AddressController::class, 'create'])->name('purchase.address.create'); // PG07
+    Route::post('/purchase/address/{item}', [AddressController::class, 'store'])->name('purchase.address.store');
 
-    // 出品
-    Route::get('/sell', [ItemController::class, 'create'])->name('items.create');
+    // 商品出品
+    Route::get('/sell', [ItemController::class, 'create'])->name('items.create');  // PG08
     Route::post('/sell', [ItemController::class, 'store'])->name('items.store');
 
-    // マイページ関連
-    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage.index');
-    Route::get('/mypage/profile', [MypageController::class, 'edit'])->name('mypage.profile.edit');
+    // マイページ
+    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage.index');              // PG09
+    Route::get('/mypage/profile', [MypageController::class, 'edit'])->name('mypage.profile.edit'); // PG10
     Route::post('/mypage/profile', [MypageController::class, 'update'])->name('mypage.profile.update');
 
-    Route::get('/mypage?page=buy', [MypageController::class, 'purchases'])->name('mypage.purchases');
-    Route::get('/mypage?page=sell', [MypageController::class, 'sales'])->name('mypage.sales');
+    // マイページのタブ切り替えはクエリパラメータで統一
+    Route::get('/mypage/purchases', [MypageController::class, 'purchases'])->name('mypage.purchases'); // PG11
+    Route::get('/mypage/sales', [MypageController::class, 'sales'])->name('mypage.sales');           // PG12
+
+    Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])->name('comments.store');
+
+    Route::post('/item/{item_id}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });

@@ -2,53 +2,47 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
-        'category_id',
+        'condition_id',
         'name',
         'brand',
         'description',
         'price',
         'status',
+        'path',
     ];
 
-    // N:1 ← User
-    public function user()
+    // ---------- リレーション ----------
+
+    // 出品者（1対1）
+    public function seller()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    // N:1 ← Category
-    public function category()
+    // 購入履歴（1対1 / Purchase モデル経由）
+    public function purchases()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Purchase::class);
     }
 
-    // 1:1 → ItemImage
-    public function image()
+    // お気に入り登録（多対多）
+    public function favoritedByUsers()
     {
-        return $this->hasOne(ItemImage::class);
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 
-    // 1:1 → Purchase
-    public function purchase()
+    // 商品のカテゴリ（多対多）
+    public function categories()
     {
-        return $this->hasOne(Purchase::class);
-    }
-
-    // 1:N → Favorite
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
-    }
-
-    // 1:N → Comment
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
+        return $this->belongsToMany(Category::class, 'category_items')->withTimestamps();
     }
 }
