@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Category;
+use App\Models\Condition;
 use App\Http\Requests\ExhibitionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class ItemController extends Controller
     public function mylist(Request $request)
     {
         $items = Auth::user()
-            ->favorites()
+            ->favoriteItems()
             ->with(['categories', 'favoritedBy', 'comments'])
             ->latest()
             ->get();
@@ -69,9 +70,11 @@ class ItemController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('items.create', compact('categories'));
+    $categories = Category::all();
+    $conditions = Condition::all();
+    return view('items.create', compact('categories', 'conditions'));
     }
+
 
     /**
      * 出品保存

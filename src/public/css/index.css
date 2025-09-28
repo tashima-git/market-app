@@ -1,9 +1,38 @@
-.main-content {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+/* タブ */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #5f5f5f;
+    /* タブ下のグレー線はそのまま */
+    margin-bottom: 50px;
+    /* 商品一覧との間隔 */
+    padding-top: 30px;
+    /* 上に30pxの余白 */
+    padding-left: 100px;
+    /* 左に100pxの余白 */
 }
 
+.tab {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #5f5f5f;
+    /* 選択していないタブの文字色 */
+    font-size: 20px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+/* タブ間の隙間 */
+.tab:not(:last-child) {
+    margin-right: 40px;
+    /* タブ同士の間隔 */
+}
+
+.tab.active {
+    color: #ff5555;
+    /* 選択中の文字色 */
+}
+
+/* 商品一覧グリッド */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -12,14 +41,27 @@
 }
 
 .product-card {
-    background: white;
+    background: #fff;
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s;
 }
 
+.product-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .product-card:hover {
     transform: translateY(-2px);
+}
+
+.product-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
 }
 
 .product-image {
@@ -36,14 +78,28 @@
 
 .product-name {
     font-size: 16px;
-    color: #333;
-    font-weight: 500;
+    color: #000;
+    text-align: center;
 }
 
 /* レスポンシブ */
+@media (max-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+}
+
 @media (max-width: 768px) {
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 }

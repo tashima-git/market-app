@@ -20,29 +20,33 @@ class Item extends Model
         'path',
     ];
 
-    // ---------- リレーション ----------
-
-    // 出品者（1対1）
-    public function seller()
+    // 出品者（User）とのリレーション
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
-    // 購入履歴（1対1 / Purchase モデル経由）
-    public function purchases()
+    // 商品の状態
+    public function condition()
     {
-        return $this->hasMany(Purchase::class);
+        return $this->belongsTo(Condition::class);
     }
 
-    // お気に入り登録（多対多）
-    public function favoritedByUsers()
-    {
-        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
-    }
-
-    // 商品のカテゴリ（多対多）
+    // カテゴリー（多対多）
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_items')->withTimestamps();
+        return $this->belongsToMany(Category::class, 'category_items');
+    }
+
+    // お気に入りしたユーザー
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
+
+    // コメント
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

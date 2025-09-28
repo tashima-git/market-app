@@ -75,6 +75,20 @@ body {
     text-align: center;
 }
 
+/* ログアウトボタンだけデフォルトスタイルをリセット */
+.logout-btn {
+    all: unset;
+    /* ブラウザ標準のボタンスタイルを全解除 */
+    display: inline-block;
+    /* aタグと同じように表示 */
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+}
+
 /* 出品ボタン */
 .sell-btn {
     background-color: #ffffff;

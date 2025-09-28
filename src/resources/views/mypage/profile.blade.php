@@ -2,8 +2,8 @@
 
 @section('title', 'プロフィール編集')
 
-@section('head')
-<link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endsection
 
 @section('content')
@@ -12,40 +12,43 @@
 
     <form method="POST" action="{{ route('mypage.profile.update') }}" enctype="multipart/form-data">
         @csrf
-        <!-- ユーザー名 -->
-        <div class="form-group">
-            <label for="name">ユーザー名 <span class="required">*</span></label>
-            <input type="text" name="name" id="name" maxlength="20" value="{{ old('name', $user->name) }}" required>
-        </div>
-
-        <!-- メールアドレス（編集不可） -->
-        <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" readonly>
-        </div>
 
         <!-- プロフィール画像 -->
+        <div class="form-group avatar-group">
+            <div class="avatar-wrapper">
+                @if($user->profile && $user->profile->avatar)
+                    <img id="avatar-preview" src="{{ asset('storage/' . $user->profile->avatar) }}" 
+                         alt="プロフィール画像" width="100">
+                @else
+                    <img id="avatar-preview" src="{{ asset('images/default-avatar.png') }}" 
+                         alt="プロフィール画像" width="100">
+                @endif
+
+                <!-- ファイル添付ボタンをラベルに変更して安定表示 -->
+                <label for="avatar" class="avatar-label">画像を選択する</label>
+                <input type="file" name="avatar" id="avatar" accept=".jpeg,.jpg,.png" class="avatar-input">
+            </div>
+        </div>
+
+        <!-- ユーザー名 -->
         <div class="form-group">
-            <label for="avatar">プロフィール画像 (.jpeg/.png)</label>
-            @if($user->profile && $user->profile->avatar)
-                <div class="current-avatar">
-                    <img src="{{ asset('storage/' . $user->profile->avatar) }}" alt="プロフィール画像" width="100">
-                </div>
-            @endif
-            <input type="file" name="avatar" id="avatar" accept=".jpeg,.jpg,.png">
+            <label for="name">ユーザー名</label>
+            <input type="text" name="name" id="name" maxlength="20" 
+                   value="{{ old('name', $user->name) }}" required>
         </div>
 
         <!-- 郵便番号 -->
         <div class="form-group">
-            <label for="postal_code">郵便番号 <span class="required">*</span></label>
-            <input type="text" name="postal_code" id="postal_code" maxlength="8" pattern="\d{3}-\d{4}" placeholder="123-4567"
+            <label for="postal_code">郵便番号</label>
+            <input type="text" name="postal_code" id="postal_code" maxlength="8" 
+                   pattern="\d{3}-\d{4}" placeholder="123-4567"
                    value="{{ old('postal_code', $user->profile->postal_code ?? '') }}" required>
         </div>
 
         <!-- 住所 -->
         <div class="form-group">
-            <label for="address">住所 <span class="required">*</span></label>
-            <input type="text" name="address" id="address"
+            <label for="address">住所</label>
+            <input type="text" name="address" id="address" 
                    value="{{ old('address', $user->profile->address ?? '') }}" required>
         </div>
 
@@ -59,4 +62,17 @@
         <button type="submit" class="auth-btn">更新する</button>
     </form>
 </div>
+
+{{-- 画像プレビュー用スクリプト --}}
+<script>
+    document.getElementById('avatar').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('avatar-preview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    });
+</script>
 @endsection

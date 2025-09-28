@@ -12,31 +12,40 @@
 <body>
     <!-- ヘッダー -->
     <header class="header">
-         <div class="logo">
-        <a href="{{ route('items.index') }}">
-            <img src="{{ asset('images/logo.svg') }}" alt="coachtechロゴ" class="logo-img">
-        </a>
-    </div>
-
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="なにをお探しですか？">
+        <div class="logo">
+            <a href="{{ route('items.index') }}">
+                <img src="{{ asset('images/logo.svg') }}" alt="coachtechロゴ" class="logo-img">
+            </a>
         </div>
 
-        <div class="header-actions">
-            @auth
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button class="header-btn logout-btn">ログアウト</button>
-                </form>
+        {{-- ログイン・会員登録・メール認証ページでは非表示 --}}
+        @if (!request()->routeIs([
+            'login',
+            'register',
+            'verification.notice',             {{-- メール認証案内ページ --}}
+            'verification.send',               {{-- 認証メール再送 --}}
+            'verification.verify',             {{-- 認証リンククリック後の確認 --}}
+        ]))
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="なにをお探しですか？">
+            </div>
 
-                <a href="{{ url('/mypage') }}" class="header-btn mypage-btn">マイページ</a>
-                <a href="{{ url('/sell') }}" class="header-btn sell-btn">出品</a>
-            @else
-                <a href="{{ route('login') }}" class="header-btn login-btn">ログイン</a>
-                <a href="{{ route('login') }}" class="header-btn mypage-btn">マイページ</a>
-                <a href="{{ route('login') }}" class="header-btn sell-btn">出品</a>
-            @endauth
-        </div>
+            <div class="header-actions">
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button class="header-btn logout-btn">ログアウト</button>
+                    </form>
+
+                    <a href="{{ url('/mypage') }}" class="header-btn mypage-btn">マイページ</a>
+                    <a href="{{ url('/sell') }}" class="header-btn sell-btn">出品</a>
+                @else
+                    <a href="{{ route('login') }}" class="header-btn login-btn">ログイン</a>
+                    <a href="{{ route('login') }}" class="header-btn mypage-btn">マイページ</a>
+                    <a href="{{ route('login') }}" class="header-btn sell-btn">出品</a>
+                @endauth
+            </div>
+        @endif
     </header>
 
     <!-- メインコンテンツ -->

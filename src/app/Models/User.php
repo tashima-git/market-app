@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // ---------- 属性 ----------
     protected $fillable = [
         'name',
         'email',
@@ -28,26 +29,42 @@ class User extends Authenticatable
 
     // ---------- リレーション ----------
 
-    // プロフィール（1対1）
+    /**
+     * プロフィール（1対1）
+     */
     public function profile()
     {
         return $this->hasOne(Profile::class);
     }
 
-    // 購入履歴（1対多）
+    /**
+     * 購入履歴（1対多）
+     */
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
     }
 
-    // お気に入り（多対多）
+    /**
+     * お気に入り（多対多）
+     */
     public function favoriteItems()
     {
-        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
+        return $this->belongsToMany(Item::class, 'favorites', 'user_id', 'item_id')->withTimestamps();
     }
 
-    // 出品商品（1対多）
+    /**
+     * 出品商品（1対多）
+     */
     public function sales()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    /**
+     * items() エイリアス（必要に応じて）
+     */
+    public function items()
     {
         return $this->hasMany(Item::class);
     }

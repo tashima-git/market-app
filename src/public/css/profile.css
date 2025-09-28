@@ -1,0 +1,102 @@
+/* profile.css */
+body {
+    font-family: 'Hiragino Kaku Gothic Pro', Meiryo, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.profile-container {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 30px;
+}
+
+.profile-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #ff5555;
+}
+
+/* プロフィール画像とボタン横並び */
+.avatar-group .avatar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.avatar-wrapper img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
+
+.avatar-input {
+    display: none;
+    /* ファイル入力は隠す */
+}
+
+.avatar-label {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 2px solid #ff5555;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #ff5555 !important;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* 更新ボタン */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff5555;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.auth-btn:hover {
+    background-color: #e04444;
+}
+
+/* レスポンシブ */
+@media (max-width: 500px) {
+    .profile-container {
+        margin: 40px 20px;
+        padding: 20px;
+    }
+}
