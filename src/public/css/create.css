@@ -1,0 +1,21 @@
+/* ￥付きインプット */
+.price-input {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.price-input::before {
+    content: "￥";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 14px;
+}
+
+.price-input input {
+    padding-left: 15px;
+    /* ￥と入力が重ならないように余白 */
+    box-sizing: border-box;
+}

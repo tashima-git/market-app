@@ -12,7 +12,7 @@ body {
 }
 
 .profile-container h1 {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 30px;
     text-align: center;
@@ -24,7 +24,8 @@ body {
 
 .form-group label {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
     margin-bottom: 6px;
     color: #555;
 }
@@ -78,7 +79,7 @@ body {
 /* 更新ボタン */
 .auth-btn {
     width: 100%;
-    padding: 12px;
+    padding: 8px;
     background-color: #ff5555;
     color: white;
     font-size: 16px;

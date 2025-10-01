@@ -5,6 +5,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\MypageController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FavoriteController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*

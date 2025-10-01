@@ -2,8 +2,8 @@
 
 @section('title', '商品出品')
 
-@section('head')
-<link rel="stylesheet" href="{{ asset('css/items.css') }}">
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/create.css') }}">
 @endsection
 
 @section('content')
@@ -24,33 +24,6 @@
     <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
         @csrf
 
-        {{-- 商品名 --}}
-        <div class="form-group">
-            <label for="name">商品名</label>
-            <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="例：Tシャツ">
-            @error('name')
-                <p class="error">{{ $message }}</p>
-            @enderror
-        </div>
-
-        {{-- 価格 --}}
-        <div class="form-group">
-            <label for="price">価格</label>
-            <input type="number" name="price" id="price" value="{{ old('price') }}" placeholder="例：1000">
-            @error('price')
-                <p class="error">{{ $message }}</p>
-            @enderror
-        </div>
-
-        {{-- 商品説明 --}}
-        <div class="form-group">
-            <label for="description">商品の説明</label>
-            <textarea name="description" id="description" rows="5" placeholder="商品の特徴や詳細を入力してください">{{ old('description') }}</textarea>
-            @error('description')
-                <p class="error">{{ $message }}</p>
-            @enderror
-        </div>
-
         {{-- 商品画像 --}}
         <div class="form-group">
             <label for="image">商品画像</label>
@@ -60,7 +33,10 @@
             @enderror
         </div>
 
-        {{-- カテゴリー（ボタン式複数選択） --}}
+        {{-- 商品詳細（小見出し） --}}
+        <h2 class="section-title">商品詳細</h2>
+
+        {{-- カテゴリー --}}
         <div class="form-group">
             <label>カテゴリー</label>
             <div class="categories-checkboxes">
@@ -90,6 +66,47 @@
                 @endforeach
             </select>
             @error('condition_id')
+                <p class="error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        {{-- 商品名と説明（小見出し） --}}
+        <h2 class="section-title">商品名と説明</h2>
+
+        {{-- 商品名 --}}
+        <div class="form-group">
+            <label for="name">商品名</label>
+            <input type="text" name="name" id="name" value="{{ old('name') }}">
+            @error('name')
+                <p class="error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        {{-- ブランド名 --}}
+        <div class="form-group">
+            <label for="brand">ブランド名</label>
+            <input type="text" name="brand" id="brand" value="{{ old('brand') }}">
+            @error('brand')
+                <p class="error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        {{-- 商品の説明 --}}
+        <div class="form-group">
+            <label for="description">商品の説明</label>
+            <textarea name="description" id="description" rows="5">{{ old('description') }}</textarea>
+            @error('description')
+                <p class="error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        {{-- 販売価格 --}}
+        <div class="form-group">
+            <label for="price">販売価格</label>
+            <div class="price-input">
+                <input type="number" name="price" id="price" value="{{ old('price') }}">
+            </div>
+            @error('price')
                 <p class="error">{{ $message }}</p>
             @enderror
         </div>
