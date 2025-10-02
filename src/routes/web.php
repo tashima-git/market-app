@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
     Route::get('/purchase/address/{item}', [AddressController::class, 'create'])->name('purchase.address.create'); // PG07
     Route::post('/purchase/address/{item}', [AddressController::class, 'store'])->name('purchase.address.store');
+    Route::post('/purchase/{item}/checkout', [PurchaseController::class, 'checkout'])->name('purchase.checkout');
+    Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
 
     // 商品出品
     Route::get('/sell', [ItemController::class, 'create'])->name('items.create');  // PG08

@@ -65,21 +65,31 @@
 }
 
 .product-image {
-    width: 100%;
-    aspect-ratio: 1;
-    background-color: #ccc;
+    width: 300px;
+    /* 枠の横幅 */
+    height: 300px;
+    /* 枠の高さ */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #666;
-    font-size: 18px;
-    font-weight: bold;
+    overflow: hidden;
+    /* はみ出た部分は隠す */
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* 枠内に収めて縦横比を維持 */
 }
 
 .product-name {
-    font-size: 16px;
+    font-size: 25px;
     color: #000;
-    text-align: center;
+    text-align: left;
+    /* 左寄せ */
+    width: 100%;
+    /* 左寄せが効くように幅を100%に */
 }
 
 /* レスポンシブ */

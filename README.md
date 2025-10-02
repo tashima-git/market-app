@@ -33,7 +33,7 @@ composer install
 cp .env.example .env
 ```
 
-4. `.env` に以下の DB 環境変数を設定
+4. `.env` に以下の環境変数を設定
 ```dotenv
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -41,6 +41,11 @@ DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
+
+<!-- 作成したstripeのAPIキーを入力 -->
+STRIPE_KEY=
+STRIPE_SECRET=
+
 ```
 
 5. アプリケーションキーを作成
@@ -66,7 +71,7 @@ php artisan db:seed
 
 ## ER図
 
-- ![ER図](./docs/erd.png)
+- ![ER図](./docs/market-app.png)
 
 ## URL
 

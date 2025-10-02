@@ -7,6 +7,8 @@
 @endsection
 
 @section('content')
+
+
 <div class="tabs">
     <a href="{{ route('items.index') }}" class="tab {{ $tab !== 'mylist' ? 'active' : '' }}">おすすめ</a>
     <a href="{{ route('items.mylist') }}" class="tab {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
