@@ -9,8 +9,8 @@
 @section('content')
 
 <div class="tabs">
-    <a href="{{ route('items.index') }}" class="tab {{ $tab !== 'mylist' ? 'active' : '' }}">おすすめ</a>
-    <a href="{{ route('items.mylist') }}" class="tab {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
+    <a href="{{ route('items.index', ['keyword' => request('keyword')]) }}" class="tab {{ $tab !== 'mylist' ? 'active' : '' }}">おすすめ</a>
+    <a href="{{ route('items.mylist', ['keyword' => request('keyword')]) }}" class="tab {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
 </div>
 
 <div class="products-grid">
@@ -33,7 +33,7 @@
             </a>
         </div>
     @empty
-        <p>商品はまだ登録されていません。</p>
+        <p class="empty-message">商品はまだ登録されていません。</p>
     @endforelse
 </div>
 

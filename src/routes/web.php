@@ -20,8 +20,8 @@ use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 // 商品関連
 // ----------------------
 Route::get('/', [ItemController::class, 'index'])->name('items.index');              // PG01 トップ画面
-Route::get('/mylist', [ItemController::class, 'mylist'])->name('items.mylist'); // PG02 マイリスト
-Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');      // PG05 商品詳細
+Route::get('/mylist', [ItemController::class, 'mylist'])->name('items.mylist');     // PG02 マイリスト
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');    // PG05 商品詳細
 
 // ----------------------
 // 会員登録
@@ -35,29 +35,27 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::middleware('auth')->group(function () {
 
     // 商品購入関連
-    Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');   // PG06
+    Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');   
     Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
-    Route::get('/purchase/address/{item}', [AddressController::class, 'create'])->name('purchase.address.create'); // PG07
+    Route::get('/purchase/address/{item}', [AddressController::class, 'create'])->name('purchase.address.create'); 
     Route::post('/purchase/address/{item}', [AddressController::class, 'store'])->name('purchase.address.store');
     Route::post('/purchase/{item}/checkout', [PurchaseController::class, 'checkout'])->name('purchase.checkout');
 
-
     // 商品出品
-    Route::get('/sell', [ItemController::class, 'create'])->name('items.create');  // PG08
+    Route::get('/sell', [ItemController::class, 'create'])->name('items.create');  
     Route::post('/sell', [ItemController::class, 'store'])->name('items.store');
 
-    // マイページ
-    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage.index');              // PG09
-    Route::get('/mypage/profile', [MypageController::class, 'edit'])->name('mypage.profile.edit'); // PG10
+    // マイページ（タブ切替はクエリパラメータ tab=sell / tab=buy で統一）
+    Route::get('/mypage', [MypageController::class, 'index'])->name('mypage.index');              
+    Route::get('/mypage/profile', [MypageController::class, 'edit'])->name('mypage.profile.edit'); 
     Route::post('/mypage/profile', [MypageController::class, 'update'])->name('mypage.profile.update');
 
-    // マイページのタブ切り替えはクエリパラメータで統一
-    Route::get('/mypage/purchases', [MypageController::class, 'purchases'])->name('mypage.purchases'); // PG11
-    Route::get('/mypage/sales', [MypageController::class, 'sales'])->name('mypage.sales');           // PG12
-
+    // コメント
     Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])->name('comments.store');
 
+    // お気に入り
     Route::post('/item/{item_id}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
 
+// Stripe Webhook
 Route::post('/webhook/stripe', [StripeWebhookController::class, 'handle']);

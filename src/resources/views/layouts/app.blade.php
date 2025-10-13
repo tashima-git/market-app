@@ -22,12 +22,43 @@
         @if (!request()->routeIs([
             'login',
             'register',
-            'verification.notice',             {{-- メール認証案内ページ --}}
-            'verification.send',               {{-- 認証メール再送 --}}
-            'verification.verify',             {{-- 認証リンククリック後の確認 --}}
+            'verification.notice',
+            'verification.send',
+            'verification.verify',
         ]))
             <div class="search-container">
-                <input type="text" class="search-bar" placeholder="なにをお探しですか？">
+                @php
+                    // 検索が有効なページ
+                    $isSearchable =
+                        request()->routeIs('items.index') ||
+                        request()->routeIs('items.mylist') ||
+                        request()->routeIs('mypage.index') ||
+                        request()->routeIs('mypage.sales') ||
+                        request()->routeIs('mypage.purchases');
+
+                    // 現在のタブ（マイページ系の検索で必要）
+                    $currentTab = request('tab', 'sell');
+
+                    // 現在の検索キーワード
+                    $currentKeyword = request('keyword', '');
+                @endphp
+
+                <form
+                    action="{{ $isSearchable ? url()->current() : '#' }}"
+                    method="GET"
+                    onsubmit="{{ $isSearchable ? '' : 'return false;' }}"
+                >
+                    {{-- タブ情報をhiddenで送信 --}}
+                    <input type="hidden" name="tab" value="{{ $currentTab }}">
+                    <input
+                        type="text"
+                        class="search-bar"
+                        name="keyword"
+                        value="{{ $currentKeyword }}"
+                        placeholder="なにをお探しですか？"
+                        {{ $isSearchable ? '' : 'disabled' }}
+                    >
+                </form>
             </div>
 
             <div class="header-actions">

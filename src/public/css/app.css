@@ -47,6 +47,18 @@ body {
     font-size: 15px;
 }
 
+/* 検索バー disabled時も見た目を変えない */
+.search-bar:disabled {
+    background-color: #fff;
+    /* 通常の背景色と同じ */
+    color: #000;
+    /* 通常の文字色と同じ */
+    cursor: text;
+    /* マウスカーソルも通常 */
+    opacity: 1;
+    /* ブラウザによる透明度変更を無効化 */
+}
+
 /* ヘッダーアクション（ボタン群） */
 .header-actions {
     display: flex;

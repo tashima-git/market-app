@@ -164,8 +164,9 @@
 
 .empty-message {
     text-align: center;
-    color: #666;
+    font-size: 20px;
     margin-top: 20px;
+    margin-left: 30px;
 }
 
 /* レスポンシブ */

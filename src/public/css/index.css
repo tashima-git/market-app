@@ -124,6 +124,13 @@
             2px 2px 0 #000;
 }
 
+.empty-message {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
 /* レスポンシブ */
 @media (max-width: 1024px) {
     .products-grid {

@@ -26,9 +26,10 @@ class ItemController extends Controller
             $query->where('user_id', '!=', Auth::id());
         }
 
-        // 検索（部分一致）
-        if ($search = $request->input('search')) {
-            $query->where('name', 'like', "%{$search}%");
+        // 🔍 検索（部分一致）
+        $keyword = $request->input('keyword');
+        if (!empty($keyword)) {
+            $query->where('name', 'like', "%{$keyword}%");
         }
 
         // 出品中と売り切れを両方取得
@@ -37,6 +38,7 @@ class ItemController extends Controller
         return view('items.index', [
             'items' => $items,
             'tab' => null,
+            'keyword' => $keyword ?? '',
         ]);
     }
 
@@ -44,23 +46,28 @@ class ItemController extends Controller
      * マイリスト（お気に入り）
      */
     public function mylist(Request $request)
-{
-    if (Auth::check()) {
-        $items = Auth::user()
-            ->favoriteItems()
-            ->with(['categories', 'favoritedBy', 'comments'])
-            ->latest()
-            ->get();
-    } else {
-        $items = collect(); // 空のコレクション
+    {
+        $keyword = $request->input('keyword');
+
+        if (Auth::check()) {
+            $items = Auth::user()
+                ->favoriteItems()
+                ->with(['categories', 'favoritedBy', 'comments'])
+                ->when(!empty($keyword), function ($query) use ($keyword) {
+                    $query->where('name', 'like', "%{$keyword}%");
+                })
+                ->latest()
+                ->get();
+        } else {
+            $items = collect(); // 空のコレクション
+        }
+
+        return view('items.index', [
+            'items' => $items,
+            'tab' => 'mylist',
+            'keyword' => $keyword ?? '',
+        ]);
     }
-
-    return view('items.index', [
-        'items' => $items,
-        'tab' => 'mylist',
-    ]);
-}
-
 
     /**
      * 商品詳細
