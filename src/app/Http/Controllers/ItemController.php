@@ -14,11 +14,12 @@ class ItemController extends Controller
 {
     /**
      * 商品一覧
+     * 
+     * 売り切れも含めて表示可能に変更
      */
     public function index(Request $request)
     {
-        $query = Item::with(['user', 'categories', 'favoritedBy', 'comments'])
-            ->where('status', 'selling'); // 出品中のみ
+        $query = Item::with(['user', 'categories', 'favoritedBy', 'comments']);
 
         // 自分の商品は非表示
         if (Auth::check()) {
@@ -30,6 +31,7 @@ class ItemController extends Controller
             $query->where('name', 'like', "%{$search}%");
         }
 
+        // 出品中と売り切れを両方取得
         $items = $query->latest()->get();
 
         return view('items.index', [
@@ -42,18 +44,23 @@ class ItemController extends Controller
      * マイリスト（お気に入り）
      */
     public function mylist(Request $request)
-    {
+{
+    if (Auth::check()) {
         $items = Auth::user()
             ->favoriteItems()
             ->with(['categories', 'favoritedBy', 'comments'])
             ->latest()
             ->get();
-
-        return view('items.index', [
-            'items' => $items,
-            'tab' => 'mylist',
-        ]);
+    } else {
+        $items = collect(); // 空のコレクション
     }
+
+    return view('items.index', [
+        'items' => $items,
+        'tab' => 'mylist',
+    ]);
+}
+
 
     /**
      * 商品詳細
@@ -70,11 +77,10 @@ class ItemController extends Controller
      */
     public function create()
     {
-    $categories = Category::all();
-    $conditions = Condition::all();
-    return view('items.create', compact('categories', 'conditions'));
+        $categories = Category::all();
+        $conditions = Condition::all();
+        return view('items.create', compact('categories', 'conditions'));
     }
-
 
     /**
      * 出品保存
@@ -95,7 +101,7 @@ class ItemController extends Controller
             'brand' => $request->brand,
             'description' => $request->description,
             'price' => $request->price,
-            'status' => 'selling',
+            'status' => 'selling', // 出品時は常に selling
             'path' => $path,
         ]);
 
@@ -106,5 +112,17 @@ class ItemController extends Controller
 
         return redirect()->route('items.index')
             ->with('success', '商品を出品しました');
+    }
+
+    /**
+     * 商品ステータスを売り切れに変更
+     * (購入後などに使用)
+     */
+    public function markSold(Item $item)
+    {
+        $item->update(['status' => 'sold']);
+
+        return redirect()->route('items.show', $item)
+            ->with('success', '商品を売り切れにしました');
     }
 }

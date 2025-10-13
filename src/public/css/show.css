@@ -77,6 +77,41 @@ header {
     justify-content: center;
 }
 
+/* --- 売り切れラベル --- */
+.product-image {
+    position: relative;
+    /* ←これを追加 */
+}
+
+/* 売り切れボタン */
+.purchase-button.sold-out {
+    background-color: #b0b0b0;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.purchase-button.sold-out:hover {
+    background-color: #b0b0b0;
+}
+
+.sold-label {
+    position: absolute;
+    top: 20px;
+    left: -40px;
+    background: rgba(255, 18, 18, 0.9);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 8px 50px;
+    transform: rotate(-45deg);
+    text-align: center;
+    z-index: 5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+}
+
 .product-main-image,
 .image-placeholder {
     width: 100%;

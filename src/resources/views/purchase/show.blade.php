@@ -8,12 +8,15 @@
 
 @section('content')
 @php
-    // セッションに住所があればそれを優先、なければユーザープロフィールから取得
+    // 配送先住所
     $address = session('purchase_address', [
         'postal_code'   => auth()->user()->profile->postal_code,
         'address'       => auth()->user()->profile->address,
         'building_name' => auth()->user()->profile->building_name,
     ]);
+
+    // 支払い方法（old() があれば優先、なければセッション値）
+    $selected_method = old('payment_method', $selected_method ?? null);
 @endphp
 
 <div class="container">
@@ -30,21 +33,26 @@
             </div>
             <div class="product-details">
                 <h2>{{ $item->name }}</h2>
-                <div class="underline"></div> {{-- 商品名下線 --}}
+                <div class="underline"></div>
                 <p class="product-price">¥{{ number_format($item->price) }}</p>
             </div>
         </div>
 
-        {{-- 支払い方法 --}}
+        {{-- 購入フォーム --}}
         <form method="POST" action="{{ route('purchase.store', $item->id) }}">
             @csrf
+
+            {{-- 支払い方法 --}}
             <div class="section">
                 <h3>支払い方法</h3>
-                <select name="payment_method" id="payment_method" required>
-                    <option value="" disabled selected>選択してください</option>
-                    <option value="convenience">コンビニ支払い</option>
-                    <option value="card">カード支払い</option>
+                <select name="payment_method" required>
+                    <option value="" disabled {{ !$selected_method ? 'selected' : '' }}>選択してください</option>
+                    <option value="konbini" {{ $selected_method === 'konbini' ? 'selected' : '' }}>コンビニ支払い</option>
+                    <option value="card" {{ $selected_method === 'card' ? 'selected' : '' }}>カード支払い</option>
                 </select>
+                @error('payment_method')
+                    <p class="error-text" style="color: red; margin-left: 90px;">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- 配送先 --}}
@@ -78,25 +86,17 @@
             </div>
             <div class="summary-row">
                 <span class="summary-label">支払い方法</span>
-                <span id="payment-summary" class="summary-value">未選択</span>
+                <span class="summary-value">
+                    @switch($selected_method)
+                        @case('konbini') コンビニ払い @break
+                        @case('card') カード払い @break
+                        @default 未選択
+                    @endswitch
+                </span>
             </div>
         </div>
         <button type="submit" class="purchase-button">購入する</button>
     </div>
     </form>
 </div>
-
-<script>
-    // 支払い方法を選択したときに右側サマリーを更新
-    document.getElementById('payment_method').addEventListener('change', function() {
-        const summary = document.getElementById('payment-summary');
-        if (this.value === 'convenience') {
-            summary.textContent = 'コンビニ払い';
-        } else if (this.value === 'card') {
-            summary.textContent = 'カード払い';
-        } else {
-            summary.textContent = '未選択';
-        }
-    });
-</script>
 @endsection

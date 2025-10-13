@@ -1,21 +1,215 @@
-/* ￥付きインプット */
-.price-input {
-    position: relative;
-    display: inline-block;
-    width: 100%;
+/* コンテナ */
+.sell-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-.price-input::before {
-    content: "￥";
+/* タイトル */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* セクションタイトル */
+.section-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: #666;
+    border-bottom: 1px solid #ddd;
+}
+
+/* フォームグループ */
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* テキスト・数値・テキストエリア・セレクト */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* コンディションプルダウン */
+.condition-select {
+    width: 100%;
+    height: 36px;
+    padding: 0 30px 0 10px;
+    appearance: none;
+    cursor: pointer;
+    background-color: #fff;
+    /* 通常は白 */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'12'%20height%3D'12'%20viewBox%3D'0%200%2010%2010'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpolygon%20points%3D'0,0%2010,0%205,5'%20fill%3D'%23636769'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+    color: #000;
+    /* デフォルト文字色 */
+    border: 1px solid #999;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* プルダウンをクリック（フォーカス）した時 */
+.condition-select:focus {
+    color: #fff;
+    font-weight: bold;
+    background-color: #636769;
+    /* 暗めの背景色 */
+    outline: none;
+}
+
+/* 選択済みの文字を青色に（表示される項目内） */
+.condition-select option:checked {
+    color: #007bff;
+    /* 青色 */
+}
+
+/* カテゴリボタン */
+.categories-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.category-btn {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.category-btn input {
+    display: none;
+}
+
+.category-btn span {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid #ff6b6b;
+    border-radius: 20px;
+    font-size: 15px;
+    color: #ff6b6b;
+    background-color: #fff;
+    transition: all 0.2s;
+}
+
+/* チェック済みの状態 */
+.category-btn input:checked+span {
+    background-color: #ff6b6b;
+    color: #fff;
+    border-color: #ff6b6b;
+}
+
+/* 出品ボタン */
+.create-sell-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.sell-btn:hover {
+    background-color: #ff5252;
+}
+
+/* エラー表示 */
+.error-messages ul {
+    list-style: none;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* ファイル入力（デフォルト非表示） */
+.form-group input[type="file"] {
+    display: none;
+}
+
+/* カスタムアップロードボタン */
+.image-upload {
+    border: 1px dashed #000;
+    border-radius: 8px;
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 10px 24px;
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #fff;
+    transition: all 0.2s;
+}
+
+.file-upload-label:hover {
+    background-color: #ff6b6b;
+    color: #fff;
+    border-color: #ff5252;
+}
+
+.price-wrapper {
+    position: relative;
+}
+
+.price-wrapper input {
+    padding-left: 28px;
+    /* ¥マーク分のスペース */
+}
+
+/* 左側に¥マークを表示 */
+.price-wrapper::before {
+    content: "¥";
     position: absolute;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    color: #333;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    pointer-events: none;
+    /* クリックや入力を邪魔しない */
 }
-
-.price-input input {
-    padding-left: 15px;
-    /* ￥と入力が重ならないように余白 */
-    box-sizing: border-box;
-}
+/* ファイル名表示は不可（JS禁止なので非表示） */

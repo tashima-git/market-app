@@ -7,6 +7,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\StripeWebhookController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
@@ -19,7 +20,7 @@ use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 // 商品関連
 // ----------------------
 Route::get('/', [ItemController::class, 'index'])->name('items.index');              // PG01 トップ画面
-Route::get('/mylist', [ItemController::class, 'mylist'])->middleware('auth')->name('items.mylist'); // PG02 マイリスト
+Route::get('/mylist', [ItemController::class, 'mylist'])->name('items.mylist'); // PG02 マイリスト
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');      // PG05 商品詳細
 
 // ----------------------
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/address/{item}', [AddressController::class, 'create'])->name('purchase.address.create'); // PG07
     Route::post('/purchase/address/{item}', [AddressController::class, 'store'])->name('purchase.address.store');
     Route::post('/purchase/{item}/checkout', [PurchaseController::class, 'checkout'])->name('purchase.checkout');
-    Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
+
 
     // 商品出品
     Route::get('/sell', [ItemController::class, 'create'])->name('items.create');  // PG08
@@ -58,3 +59,5 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/item/{item_id}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
+
+Route::post('/webhook/stripe', [StripeWebhookController::class, 'handle']);

@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="sell-container">
-    <h1>商品を出品する</h1>
+    <h1>商品の出品</h1>
 
     {{-- バリデーションエラー表示 --}}
     @if ($errors->any())
@@ -26,14 +26,17 @@
 
         {{-- 商品画像 --}}
         <div class="form-group">
-            <label for="image">商品画像</label>
-            <input type="file" name="image" id="image" accept="image/jpeg,image/png">
+            <label>商品画像</label>
+            <div class="image-upload">
+                <label for="image" class="file-upload-label">画像を選択する</label>
+                <input type="file" name="image" id="image" accept="image/jpeg,image/png">
+            </div>
             @error('image')
                 <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
-        {{-- 商品詳細（小見出し） --}}
+        {{-- 商品詳細 --}}
         <h2 class="section-title">商品詳細</h2>
 
         {{-- カテゴリー --}}
@@ -44,7 +47,7 @@
                     <label class="category-btn">
                         <input type="checkbox" name="categories[]" value="{{ $category->id }}"
                             {{ (collect(old('categories'))->contains($category->id)) ? 'checked' : '' }}>
-                        {{ $category->name }}
+                        <span>{{ $category->name }}</span>
                     </label>
                 @endforeach
             </div>
@@ -56,11 +59,10 @@
         {{-- 商品の状態 --}}
         <div class="form-group">
             <label for="condition_id">商品の状態</label>
-            <select name="condition_id" id="condition_id" required>
+            <select name="condition_id" id="condition_id" class="condition-select" required>
                 <option value="">選択してください</option>
                 @foreach($conditions as $condition)
-                    <option value="{{ $condition->id }}"
-                        {{ old('condition_id') == $condition->id ? 'selected' : '' }}>
+                    <option value="{{ $condition->id }}" {{ old('condition_id') == $condition->id ? 'selected' : '' }}>
                         {{ $condition->name }}
                     </option>
                 @endforeach
@@ -70,10 +72,9 @@
             @enderror
         </div>
 
-        {{-- 商品名と説明（小見出し） --}}
+        {{-- 商品名と説明 --}}
         <h2 class="section-title">商品名と説明</h2>
 
-        {{-- 商品名 --}}
         <div class="form-group">
             <label for="name">商品名</label>
             <input type="text" name="name" id="name" value="{{ old('name') }}">
@@ -82,7 +83,6 @@
             @enderror
         </div>
 
-        {{-- ブランド名 --}}
         <div class="form-group">
             <label for="brand">ブランド名</label>
             <input type="text" name="brand" id="brand" value="{{ old('brand') }}">
@@ -91,7 +91,6 @@
             @enderror
         </div>
 
-        {{-- 商品の説明 --}}
         <div class="form-group">
             <label for="description">商品の説明</label>
             <textarea name="description" id="description" rows="5">{{ old('description') }}</textarea>
@@ -100,10 +99,10 @@
             @enderror
         </div>
 
-        {{-- 販売価格 --}}
-        <div class="form-group">
+        {{-- 価格 --}}
+        <div class="form-group price-input">
             <label for="price">販売価格</label>
-            <div class="price-input">
+            <div class="price-wrapper">
                 <input type="number" name="price" id="price" value="{{ old('price') }}">
             </div>
             @error('price')
@@ -111,7 +110,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="sell-btn">出品する</button>
+        <button type="submit" class="create-sell-btn">出品する</button>
     </form>
 </div>
 @endsection

@@ -9,13 +9,19 @@
 @section('content')
 <div class="container">
     {{-- 商品画像 --}}
-    <div class="product-image">
-        @if ($item->path)
-            <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}" class="product-main-image">
-        @else
-            <div class="image-placeholder">商品画像</div>
+<div class="product-image">
+    @if ($item->path)
+        {{-- 売り切れ時ラベル --}}
+        @if ($item->status === 'sold')
+            <div class="sold-label">sold</div>
         @endif
-    </div>
+
+        <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}" class="product-main-image">
+    @else
+        <div class="image-placeholder">商品画像</div>
+    @endif
+</div>
+
 
     <div class="product-details">
         {{-- 商品名 & ブランド --}}
@@ -63,14 +69,22 @@
 
         {{-- 購入ボタン --}}
 @auth
-    <a href="{{ route('purchase.show', $item->id) }}">
-        <button class="purchase-button">購入手続きへ</button>
-    </a>
+    @if ($item->status === 'sold' || $item->user_id === auth()->id())
+        {{-- 売り切れ時：ボタン無効 --}}
+        <button class="purchase-button sold-out" disabled>購入手続きへ</button>
+    @else
+        {{-- 通常購入 --}}
+        <a href="{{ route('purchase.show', $item->id) }}">
+            <button class="purchase-button">購入手続きへ</button>
+        </a>
+    @endif
 @else
+    {{-- 未ログイン時 --}}
     <a href="{{ route('login') }}">
         <button class="purchase-button">購入手続きへ</button>
     </a>
 @endauth
+
 
 
         {{-- 商品説明 --}}
