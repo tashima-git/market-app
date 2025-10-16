@@ -14,17 +14,16 @@ class PurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_method' => ['required', 'string'],
-            'address_id' => ['required', 'integer', 'exists:addresses,id'],
+            'payment_method' => ['required'],
+            'address_id' => ['required'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'payment_method.required' => '支払い方法は必須です。',
-            'address_id.required' => '配送先住所は必須です。',
-            'address_id.exists' => '選択した配送先住所が存在しません。',
+            'payment_method.required' => '支払い方法を選択してください。',
+            'address_id.required' => '配送先を選択してください。',
         ];
     }
 }

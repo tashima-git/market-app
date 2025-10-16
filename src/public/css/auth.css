@@ -70,10 +70,25 @@ body {
     text-decoration: underline;
 }
 
+/* エラー表示 */
+.error-messages {
+    list-style: none;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
 /* レスポンシブ */
-@media (max-width: 500px) {
+@media (min-width: 1400px) and (max-width: 1540px) {
     .auth-container {
-        margin: 40px 20px;
-        padding: 20px;
+        max-width: 420px;
+        /* レイアウトの安定だけ調整 */
+        margin: 100px auto;
+        padding: 40px;
     }
 }

@@ -21,7 +21,8 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
+    {{-- novalidate を追加：HTML5標準バリデーション無効化 --}}
+    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data" novalidate>
         @csrf
 
         {{-- 商品画像 --}}
@@ -59,7 +60,7 @@
         {{-- 商品の状態 --}}
         <div class="form-group">
             <label for="condition_id">商品の状態</label>
-            <select name="condition_id" id="condition_id" class="condition-select" required>
+            <select name="condition_id" id="condition_id" class="condition-select">
                 <option value="">選択してください</option>
                 @foreach($conditions as $condition)
                     <option value="{{ $condition->id }}" {{ old('condition_id') == $condition->id ? 'selected' : '' }}>

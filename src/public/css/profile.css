@@ -46,6 +46,14 @@
     gap: 45px;
 }
 
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    /* お好みで変更可 */
+}
+
 .avatar-wrapper img {
     width: 100px;
     height: 100px;
@@ -89,10 +97,33 @@
     background-color: #e04444;
 }
 
+/* エラー表示 */
+.error-messages {
+    list-style: none;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
 /* レスポンシブ */
-@media (max-width: 500px) {
+@media (min-width: 1400px) and (max-width: 1540px) {
     .profile-container {
-        margin: 40px 20px;
-        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .avatar-group .avatar-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 45px;
+        /* 横並びのズレ防止 */
+        justify-content: center;
     }
 }

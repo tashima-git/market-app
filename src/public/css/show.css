@@ -359,20 +359,19 @@ header {
 }
 
 /* レスポンシブ対応 */
-@media (max-width: 768px) {
+@media (min-width: 1400px) and (max-width: 1540px) {
     .container {
-        flex-direction: column;
-        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        /* 幅が狭いときに折り返して崩れ防止 */
+        justify-content: center;
+        /* 左右のずれを防止 */
+        align-items: flex-start;
     }
 
     .product-image,
     .product-details {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    .product-main-image,
-    .image-placeholder {
-        max-width: 100%;
+        flex: 0 0 auto;
+        /* 幅固定でグリッド崩れ防止 */
     }
 }

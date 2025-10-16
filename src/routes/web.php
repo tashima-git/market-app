@@ -8,26 +8,24 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\StripeWebhookController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+|
+| ここでは、アプリケーションのWebルートを登録します。
+| 公開ルートと認証必須ルートを明確に分けています。
+| ログイン・登録は Fortify が自動処理します。
+|
 */
 
 // ----------------------
-// 商品関連
+// 商品関連（公開ルート）
 // ----------------------
-Route::get('/', [ItemController::class, 'index'])->name('items.index');              // PG01 トップ画面
-Route::get('/mylist', [ItemController::class, 'mylist'])->name('items.mylist');     // PG02 マイリスト
-Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');    // PG05 商品詳細
-
-// ----------------------
-// 会員登録
-// ----------------------
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register'); // PG03
-Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::get('/', [ItemController::class, 'index'])->name('items.index');              
+Route::get('/mylist', [ItemController::class, 'mylist'])->name('items.mylist');     
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');    
 
 // ----------------------
 // 認証必須ルート
@@ -57,5 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/item/{item_id}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
 
+// ----------------------
 // Stripe Webhook
+// ----------------------
 Route::post('/webhook/stripe', [StripeWebhookController::class, 'handle']);
