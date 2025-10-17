@@ -71,7 +71,7 @@ php artisan db:seed
 
 ## ER図
 
-- ![ER図](./docs/market-app.png)
+![ER図](./docs/market-app.png)
 
 ## URL
 
