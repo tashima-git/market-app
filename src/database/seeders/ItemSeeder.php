@@ -11,15 +11,21 @@ class ItemSeeder extends Seeder
 {
     public function run()
     {
-        // 外部キー制約を一時無効化して truncate
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $driver = DB::getDriverName();
+
+        // 外部キー制約を無効化（SQLiteではサポートされないため条件分岐）
+        if ($driver !== 'sqlite') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        }
+
         Item::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        if ($driver !== 'sqlite') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
 
         // Condition の name => id マップを作成（予約語対応）
-        $conditions = Condition::get()->mapWithKeys(function ($c) {
-            return [$c->condition => $c->id];
-        })->toArray();
+        $conditions = Condition::pluck('id', 'name')->toArray();
 
         // 商品データ
         $items = [
@@ -117,7 +123,7 @@ class ItemSeeder extends Seeder
 
         // 登録処理
         foreach ($items as $item) {
-            $item['user_id'] = rand(1, 3); // 1～3のランダム
+            $item['user_id'] = rand(1, 3); // 1～3のランダムユーザー
             Item::create($item);
         }
     }
