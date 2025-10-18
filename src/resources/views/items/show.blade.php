@@ -12,9 +12,10 @@
 <div class="product-image">
     @if ($item->path)
         {{-- 売り切れ時ラベル --}}
-        @if ($item->status === 'sold')
-            <div class="sold-label">sold</div>
-        @endif
+                        @if($item->purchases()->exists())
+                            <div class="sold-badge">sold</div>
+                        @endif
+
 
         <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}" class="product-main-image">
     @else
@@ -69,7 +70,7 @@
 
         {{-- 購入ボタン --}}
 @auth
-    @if ($item->status === 'sold' || $item->user_id === auth()->id())
+    @if ($item->isSold() || $item->user_id === auth()->id())
         {{-- 売り切れ時：ボタン無効 --}}
         <button class="purchase-button sold-out" disabled>購入手続きへ</button>
     @else

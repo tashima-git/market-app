@@ -21,7 +21,7 @@ class FavoriteTest extends TestCase
     }
 
     /** @test */
-    public function user_can_favorite_and_unfavorite_an_item()
+    public function ユーザーは商品にいいねして解除できる()
     {
         // 出品者ユーザー
         $seller = User::create([

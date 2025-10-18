@@ -32,25 +32,26 @@ class ItemListTest extends TestCase
             'payment_method' => 'credit_card',
         ]);
 
-            // 重要：Item のステータスを sold に更新
-    $itemToPurchase->status = 'sold';
-    $itemToPurchase->save();
+        // 重要：Item のステータスを sold に更新
+        $itemToPurchase->status = 'sold';
+        $itemToPurchase->save();
     }
 
-    public function test_all_items_are_displayed()
-{
-    $response = $this->get('/'); // 商品一覧ページ
-    $response->assertStatus(200);
+    /** @test */
+    public function 全ての商品が一覧表示される()
+    {
+        $response = $this->get('/'); // 商品一覧ページ
+        $response->assertStatus(200);
 
-    // データベースに登録されている全商品名を確認
-    $allItems = \App\Models\Item::all();
-    foreach ($allItems as $item) {
-        $response->assertSee($item->name);
+        // データベースに登録されている全商品名を確認
+        $allItems = \App\Models\Item::all();
+        foreach ($allItems as $item) {
+            $response->assertSee($item->name);
+        }
     }
-}
 
-
-    public function test_purchased_items_are_marked_as_sold()
+    /** @test */
+    public function 購入済み商品には_sold_が表示される()
     {
         $response = $this->get('/');
 
@@ -58,7 +59,8 @@ class ItemListTest extends TestCase
         $response->assertSee('sold');
     }
 
-    public function test_user_items_are_not_displayed_to_self()
+    /** @test */
+    public function 自分の出品商品は表示されない()
     {
         $user = User::first();
         $this->actingAs($user);

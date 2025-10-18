@@ -46,7 +46,7 @@
                     <div class="product-image-wrapper">
                         @if($item->path)
                             <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}">
-                            @if($item->status === 'sold')
+                            @if($item->purchases()->exists())
                                 <div class="sold-badge">sold</div>
                             @endif
                         @else

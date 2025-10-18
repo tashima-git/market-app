@@ -47,7 +47,7 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function logged_in_user_can_post_comment()
+    public function ログイン済みユーザーはコメントを投稿できる()
     {
         $user = $this->createUser('テストユーザー1', 'user1@example.com');
         $item = $this->createItem($user);
@@ -66,7 +66,7 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function guest_cannot_post_comment()
+    public function ゲストはコメントを投稿できない()
     {
         $user = $this->createUser('テストユーザー2', 'user2@example.com');
         $item = $this->createItem($user);
@@ -82,7 +82,7 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function comment_cannot_be_empty()
+    public function コメントは空では投稿できない()
     {
         $user = $this->createUser('テストユーザー3', 'user3@example.com');
         $item = $this->createItem($user);
@@ -97,7 +97,7 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function comment_cannot_exceed_255_characters()
+    public function コメントは255文字を超えて投稿できない()
     {
         $user = $this->createUser('テストユーザー4', 'user4@example.com');
         $item = $this->createItem($user);

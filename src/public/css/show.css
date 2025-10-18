@@ -96,7 +96,7 @@ header {
     background-color: #b0b0b0;
 }
 
-.sold-label {
+.sold-badge {
     position: absolute;
     top: 20px;
     left: -40px;

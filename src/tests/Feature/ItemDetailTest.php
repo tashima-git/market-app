@@ -48,7 +48,8 @@ class ItemDetailTest extends TestCase
         ]);
     }
 
-    public function test_item_detail_page_displays_required_information()
+    /** @test */
+    public function 商品詳細ページに必要な情報が表示される()
     {
         $item = Item::first();
         $response = $this->get("/item/{$item->id}");
@@ -83,7 +84,8 @@ class ItemDetailTest extends TestCase
         }
     }
 
-    public function test_multiple_categories_are_displayed()
+    /** @test */
+    public function 複数カテゴリが正しく表示される()
     {
         $item = Item::first();
         $response = $this->get("/item/{$item->id}");

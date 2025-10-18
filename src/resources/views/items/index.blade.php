@@ -24,7 +24,7 @@
                         @else
                             画像なし
                         @endif
-                        @if($item->status === 'sold')
+                        @if($item->purchases()->exists())
                             <div class="sold-badge">sold</div>
                         @endif
                     </div>

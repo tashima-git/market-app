@@ -22,10 +22,8 @@ class ItemSearchTest extends TestCase
         $this->seed(\Database\Seeders\ItemSeeder::class);
     }
 
-    /**
-     * ホームページで部分一致検索できること
-     */
-    public function test_homepage_search_returns_partial_match_items()
+    /** @test */
+    public function ホームページで部分一致検索できる()
     {
         $keyword = '時計'; // 部分一致キーワード
         $response = $this->get('/?keyword=' . $keyword);
@@ -45,10 +43,8 @@ class ItemSearchTest extends TestCase
         }
     }
 
-    /**
-     * 検索キーワードがマイリストでも保持されること
-     */
-    public function test_search_keyword_is_preserved_on_mylist_page()
+    /** @test */
+    public function 検索キーワードがマイリストでも保持される()
     {
         $user = User::first();
         $this->actingAs($user);

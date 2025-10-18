@@ -45,7 +45,7 @@ class MylistTest extends TestCase
     }
 
     /** @test */
-    public function mylist_page_displays_favorited_items()
+    public function マイリストページでお気に入り商品が表示される()
     {
         $this->actingAs($this->user);
         $response = $this->get('/mylist');
@@ -65,7 +65,7 @@ class MylistTest extends TestCase
     }
 
     /** @test */
-    public function mylist_page_does_not_display_unfavorited_items()
+    public function マイリストページでお気に入りでない商品は表示されない()
     {
         $this->actingAs($this->user);
         $response = $this->get('/mylist');
@@ -77,7 +77,7 @@ class MylistTest extends TestCase
     }
 
     /** @test */
-    public function mylist_page_shows_nothing_for_guest()
+    public function 未認証ユーザーはマイリストページで何も表示されない()
     {
         // 未認証ユーザーでアクセス
         $response = $this->get('/mylist');

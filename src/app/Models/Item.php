@@ -49,4 +49,15 @@ class Item extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function purchases()
+{
+    return $this->hasMany(Purchase::class);
+}
+
+// 購入済み判定用メソッド（任意）
+public function isSold(): bool
+{
+    return $this->purchases()->exists();
+}
 }
