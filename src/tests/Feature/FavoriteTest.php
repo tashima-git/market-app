@@ -36,6 +36,8 @@ class FavoriteTest extends TestCase
             'email' => 'buyer@example.com',
             'password' => bcrypt('password'),
         ]);
+        $buyer->email_verified_at = now();
+        $buyer->save();
 
         // アイテム作成（出品者が作成）
         $item = Item::create([

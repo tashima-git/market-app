@@ -18,6 +18,10 @@ class UserProfileTest extends TestCase
 
         // シーダーで初期データ作成（ユーザー・商品）
         $this->artisan('migrate:fresh --seed --env=testing');
+
+        $this->user = User::factory()->create([
+        'email_verified_at' => now(),
+        ]);
     }
 
     /** @test */

@@ -25,11 +25,17 @@ class CommentTest extends TestCase
 
     protected function createUser($name, $email)
     {
-        return User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt('password'),
         ]);
+
+        // テストではメール認証済みにする
+        $user->email_verified_at = now();
+        $user->save();
+
+        return $user;
     }
 
     protected function createItem($user)
@@ -49,8 +55,12 @@ class CommentTest extends TestCase
     /** @test */
     public function ログイン済みユーザーはコメントを投稿できる()
     {
-        $user = $this->createUser('テストユーザー1', 'user1@example.com');
-        $item = $this->createItem($user);
+        // 出品者
+        $seller = $this->createUser('出品者', 'seller@example.com');
+        $item = $this->createItem($seller);
+
+        // コメント投稿者
+        $user = $this->createUser('コメント投稿者', 'user1@example.com');
 
         $response = $this->actingAs($user)
                          ->post(route('comments.store', ['item_id' => $item->id]), [
@@ -58,6 +68,7 @@ class CommentTest extends TestCase
                          ]);
 
         $response->assertStatus(302);
+
         $this->assertDatabaseHas('comments', [
             'user_id' => $user->id,
             'item_id' => $item->id,

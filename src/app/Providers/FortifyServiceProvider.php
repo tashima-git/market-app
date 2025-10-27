@@ -10,6 +10,8 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use App\Http\Responses\RegisterResponse;
 use App\Http\Responses\LoginResponse;
 use App\Actions\Fortify\CreateNewUser;
+use Laravel\Fortify\Contracts\VerifyEmailViewResponse as VerifyEmailViewResponseContract;
+use App\Actions\Fortify\VerifyEmailViewResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -34,5 +36,10 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::loginView(fn() => view('auth.login'));
         Fortify::registerView(fn() => view('auth.register'));
+
+        $this->app->singleton(
+            VerifyEmailViewResponseContract::class,
+            VerifyEmailViewResponse::class
+    );
     }
 }

@@ -29,18 +29,22 @@ class UserSeeder extends Seeder
                 'name' => 'テストユーザー1',
                 'email' => 'test1@example.com',
                 'password' => bcrypt('password'),
+                'email_verified_at' => now(), // ← ここを追加
             ],
             [
                 'name' => 'テストユーザー2',
                 'email' => 'test2@example.com',
                 'password' => bcrypt('password'),
+                'email_verified_at' => now(),
             ],
             [
                 'name' => 'テストユーザー3',
                 'email' => 'test3@example.com',
                 'password' => bcrypt('password'),
+                'email_verified_at' => now(),
             ],
         ];
+
 
         foreach ($users as $userData) {
             $user = User::create($userData);
