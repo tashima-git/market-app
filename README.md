@@ -6,7 +6,8 @@
 
 1. リポジトリをクローン
 ```bash
-git clone git@github.com:tashima-git/market-app.git
+git clone https://github.com/tashima-git/market-app.git
+
 ```
 
 2. Docker Desktop アプリを起動
