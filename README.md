@@ -118,6 +118,9 @@ stripe listen --forward-to http://172.24.13.75/webhook/stripe
 - PHP 8.4.8
 - Laravel 10.49.0
 - MySQL 8.0.26
+- Docker / Docker Compose
+- Stripe (テスト決済機能)
+- Mailhog (メール送信テスト用)
 
 ## ER図
 
