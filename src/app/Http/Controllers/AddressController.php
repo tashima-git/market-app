@@ -18,8 +18,6 @@ class AddressController extends Controller
     public function create(Item $item)
     {
         $user = Auth::user();
-
-        // 一時的にプロフィールの住所を使用
         $profile = $user->profile;
 
         // セッションに既に入力済みの住所があればそちらを優先

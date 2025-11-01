@@ -49,8 +49,15 @@ class ItemSearchTest extends TestCase
         $user = User::first();
         $this->actingAs($user);
 
-        // ホームページで検索
         $keyword = '時計';
+
+        // 検索対象の商品を作成（または既存商品を取得）
+        $item = Item::where('name', 'like', "%{$keyword}%")->first();
+
+        // ログインユーザーのお気に入りに追加
+        $user->favoriteItems()->attach($item->id);
+
+        // ホームページで検索
         $responseHome = $this->get('/?keyword=' . $keyword);
         $responseHome->assertStatus(200);
 

@@ -12,6 +12,6 @@ class VerifyEmailViewResponse implements Responsable
      */
     public function toResponse($request)
     {
-        return response()->view('auth.verify-email'); // View をレスポンスにラップ
+        return response()->view('auth.verify-email');
     }
 }

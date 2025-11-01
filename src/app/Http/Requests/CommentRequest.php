@@ -8,7 +8,6 @@ class CommentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // テスト環境では常に true
         if (app()->environment('testing')) {
             return true;
         }

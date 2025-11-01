@@ -9,13 +9,12 @@
 @section('content')
 <main class="verify-main">
     <div class="verify-content">
-        {{-- 認証完了メッセージ --}}
+
         <p class="verify-message">
             メール認証が完了しました。<br>
             プロフィール設定画面に進んでください。
         </p>
 
-        {{-- プロフィール設定画面へのボタン --}}
         <a href="{{ route('mypage.profile.edit') }}" class="verify-button">
             プロフィール設定へ
         </a>

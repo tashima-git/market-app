@@ -83,7 +83,6 @@ class MypageController extends Controller
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
 
             if ($user->profile) {
-                // 古い画像を削除
                 if ($user->profile->avatar) {
                     Storage::disk('public')->delete($user->profile->avatar);
                 }

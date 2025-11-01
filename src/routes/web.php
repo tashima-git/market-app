@@ -27,13 +27,13 @@ use Illuminate\Http\Request;
 
 // メール認証誘導画面（ログイン済みだが未認証ユーザー用）
 Route::get('/email/verify', function () {
-    return view('auth.verify-email'); // ← Blade作成済み（「認証はこちらから」ボタンあり）
+    return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
 // メール内リンククリック後の認証処理
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill(); // email_verified_at カラムを更新
-    return redirect('/mypage/profile')->with('verified', true); // 認証完了後プロフィール画面へ
+    $request->fulfill();
+    return redirect('/mypage/profile')->with('verified', true);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // 認証メール再送信処理

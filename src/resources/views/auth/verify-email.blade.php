@@ -10,7 +10,7 @@
 @section('content')
 <main class="verify-main">
     <div class="verify-content">
-        {{-- メッセージ --}}
+
         <p class="verify-message">
             登録していただいたメールアドレスに認証メールを送付しました。<br>
             メール認証を完了してください。
@@ -29,7 +29,6 @@
             </button>
         </form>
 
-        {{-- 成功メッセージ --}}
         @if(session('message'))
             <p class="verify-success-message">{{ session('message') }}</p>
         @endif

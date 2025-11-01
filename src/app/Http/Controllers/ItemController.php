@@ -14,8 +14,8 @@ class ItemController extends Controller
 {
     /**
      * 商品一覧
-     * 
-     * 売り切れも含めて表示可能に変更
+     *
+     * 売り切れも含めて表示可能
      */
     public function index(Request $request)
     {
@@ -59,7 +59,7 @@ class ItemController extends Controller
                 ->latest()
                 ->get();
         } else {
-            $items = collect(); // 空のコレクション
+            $items = collect();
         }
 
         return view('items.index', [
@@ -96,7 +96,6 @@ class ItemController extends Controller
     {
         $path = null;
 
-        // 画像アップロード
         if ($request->hasFile('image') && !app()->environment('testing')) {
             $path = $request->file('image')->store('items', 'public');
         }
@@ -112,11 +111,10 @@ class ItemController extends Controller
             'brand' => $request->brand,
             'description' => $request->description,
             'price' => $request->price,
-            'status' => 'selling', // 出品時は常に selling
+            'status' => 'selling',
             'path' => $path,
         ]);
 
-        // カテゴリ紐付け
         if ($request->has('categories') && is_array($request->categories) && count($request->categories) > 0) {
             $item->categories()->sync($request->categories);
         }
@@ -134,7 +132,8 @@ class ItemController extends Controller
     {
         $item->update(['status' => 'sold']);
 
-        return redirect()->route('items.show', $item)
+        return redirect()
+            ->route('items.show', $item)
             ->with('success', '商品を売り切れにしました');
     }
 }

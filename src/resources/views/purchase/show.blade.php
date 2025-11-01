@@ -25,7 +25,7 @@
         {{-- 商品情報 --}}
         <div class="product-info">
             <div class="product-image">
-                @if($item->path)
+                @if ($item->path)
                     <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}">
                 @else
                     <div class="placeholder">商品画像</div>

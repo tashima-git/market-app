@@ -9,25 +9,23 @@
 @section('content')
 <div class="container">
     {{-- 商品画像 --}}
-<div class="product-image">
-    @if ($item->path)
-        {{-- 売り切れ時ラベル --}}
-                        @if($item->purchases()->exists())
-                            <div class="sold-badge">sold</div>
-                        @endif
+    <div class="product-image">
+        @if ($item->path)
+            {{-- 売り切れ時ラベル --}}
+            @if ($item->purchases()->exists())
+                <div class="sold-badge">sold</div>
+            @endif
 
-
-        <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}" class="product-main-image">
-    @else
-        <div class="image-placeholder">商品画像</div>
-    @endif
-</div>
-
+            <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}" class="product-main-image">
+        @else
+            <div class="image-placeholder">商品画像</div>
+        @endif
+    </div>
 
     <div class="product-details">
         {{-- 商品名 & ブランド --}}
         <h1 class="product-title">{{ $item->name }}</h1>
-        @if($item->brand)
+        @if ($item->brand)
             <div class="brand-name">{{ $item->brand }}</div>
         @endif
 
@@ -41,22 +39,22 @@
         <div class="action-icons">
             {{-- お気に入りボタン --}}
             @auth
-            <form method="POST" action="{{ route('favorites.toggle', $item->id) }}">
-                @csrf
-                <button type="submit" class="icon-button {{ auth()->user()->favoriteItems->contains($item->id) ? 'favorited' : '' }}">
+                <form method="POST" action="{{ route('favorites.toggle', $item->id) }}">
+                    @csrf
+                    <button type="submit" class="icon-button {{ auth()->user()->favoriteItems->contains($item->id) ? 'favorited' : '' }}">
+                        <svg viewBox="0 0 24 24" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <span class="favorite-count">{{ $item->favoritedBy->count() }}</span>
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="icon-button">
                     <svg viewBox="0 0 24 24" stroke-width="2">
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                     <span class="favorite-count">{{ $item->favoritedBy->count() }}</span>
-                </button>
-            </form>
-            @else
-            <a href="{{ route('login') }}" class="icon-button">
-                <svg viewBox="0 0 24 24" stroke-width="2">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                </svg>
-                <span class="favorite-count">{{ $item->favoritedBy->count() }}</span>
-            </a>
+                </a>
             @endauth
 
             {{-- コメント数 --}}
@@ -69,24 +67,22 @@
         </div>
 
         {{-- 購入ボタン --}}
-@auth
-    @if ($item->isSold() || $item->user_id === auth()->id())
-        {{-- 売り切れ時：ボタン無効 --}}
-        <button class="purchase-button sold-out" disabled>購入手続きへ</button>
-    @else
-        {{-- 通常購入 --}}
-        <a href="{{ route('purchase.show', $item->id) }}">
-            <button class="purchase-button">購入手続きへ</button>
-        </a>
-    @endif
-@else
-    {{-- 未ログイン時 --}}
-    <a href="{{ route('login') }}">
-        <button class="purchase-button">購入手続きへ</button>
-    </a>
-@endauth
-
-
+        @auth
+            @if ($item->isSold() || $item->user_id === auth()->id())
+                {{-- 売り切れ時：ボタン無効 --}}
+                <button class="purchase-button sold-out" disabled>購入手続きへ</button>
+            @else
+                {{-- 通常購入 --}}
+                <a href="{{ route('purchase.show', $item->id) }}">
+                    <button class="purchase-button">購入手続きへ</button>
+                </a>
+            @endif
+        @else
+            {{-- 未ログイン時 --}}
+            <a href="{{ route('login') }}">
+                <button class="purchase-button">購入手続きへ</button>
+            </a>
+        @endauth
 
         {{-- 商品説明 --}}
         <div class="description">
@@ -112,45 +108,45 @@
         </div>
 
         {{-- コメント欄 --}}
-<div class="comments-section">
-    <div class="comment-count">コメント ({{ $item->comments->count() }})</div>
+        <div class="comments-section">
+            <div class="comment-count">コメント ({{ $item->comments->count() }})</div>
 
-    @foreach($item->comments as $comment)
-        <div class="comment">
-            {{-- アバター画像 --}}
-            <div class="comment-avatar">
-                @if($comment->user->profile && $comment->user->profile->avatar)
-                    <img src="{{ asset('storage/' . $comment->user->profile->avatar) }}" alt="{{ $comment->user->name }}">
-                @else
-                    <div class="placeholder-avatar"></div>
-                @endif
-            </div>
+            @foreach($item->comments as $comment)
+                <div class="comment">
+                    {{-- アバター画像 --}}
+                    <div class="comment-avatar">
+                        @if ($comment->user->profile && $comment->user->profile->avatar)
+                            <img src="{{ asset('storage/' . $comment->user->profile->avatar) }}" alt="{{ $comment->user->name }}">
+                        @else
+                            <div class="placeholder-avatar"></div>
+                        @endif
+                    </div>
 
-            {{-- コメント内容 --}}
-            <div class="comment-content">
-                <div class="comment-author">{{ $comment->user->name }}</div>
-                <div class="comment-text">{{ $comment->comment }}</div>
+                    {{-- コメント内容 --}}
+                    <div class="comment-content">
+                        <div class="comment-author">{{ $comment->user->name }}</div>
+                        <div class="comment-text">{{ $comment->comment }}</div>
+                    </div>
+                </div>
+            @endforeach
+
+            {{-- コメント投稿フォーム --}}
+            <div class="comment-form">
+                <h3 class="section-title">商品へのコメント</h3>
+                <form method="POST" action="{{ route('comments.store', $item->id) }}">
+                    @csrf
+                    <textarea name="comment" placeholder="コメントを入力">{{ old('comment') }}</textarea>
+                    
+                    @auth
+                        <button type="submit" class="submit-button">コメントを送信する</button>
+                    @else
+                        <a href="{{ route('login') }}" class="submit-button" style="display:block;text-align:center;text-decoration:none;">
+                            コメントを送信する
+                        </a>
+                    @endauth
+                </form>
             </div>
         </div>
-    @endforeach
-
-    {{-- コメント投稿フォーム --}}
-    <div class="comment-form">
-        <h3 class="section-title">商品へのコメント</h3>
-        <form method="POST" action="{{ route('comments.store', $item->id) }}">
-            @csrf
-            <textarea name="comment" placeholder="コメントを入力">{{ old('comment') }}</textarea>
-            
-            @auth
-                <button type="submit" class="submit-button">コメントを送信する</button>
-            @else
-                <a href="{{ route('login') }}" class="submit-button" style="display:block;text-align:center;text-decoration:none;">
-                    コメントを送信する
-                </a>
-            @endauth
-        </form>
     </div>
-</div>
-
 </div>
 @endsection
