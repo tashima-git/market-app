@@ -106,11 +106,16 @@ php artisan test
 ```
 ### stripeを起動し購入処理を可能にする
 
-1. `exit`コマンドでコンテナ内から出る
-
-2. stripeを起動する
+1. コンテナ内のまま使用するポートを指定
 ```bash
-stripe listen --forward-to http://172.24.13.75/webhook/stripe
+php artisan serve --host=0.0.0.0 --port=8000
+```
+
+2. 新しいターミナルか新しいタブを開き`market-app`ディレクトリまで移動する
+
+3. stripeを起動する
+```bash
+stripe listen --forward-to http://localhost:8000/webhook/stripe
 ```
 
 ## 使用技術・実行環境

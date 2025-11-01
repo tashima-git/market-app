@@ -17,6 +17,8 @@ services:
             - ./src:/var/www/
         environment:
           STRIPE_WEBHOOK_SECRET: whsec_2d82f0f8bbadc4a42f38aeee2c3816ac6ca972d29c8b95c8881badfcb5e28d18
+        ports:
+          - "8000:8000"
 
     mysql:
         image: mysql:8.0.26
