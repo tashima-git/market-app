@@ -136,3 +136,7 @@ stripe listen --forward-to http://localhost:8000/webhook/stripe
 
 - 開発環境: [http://localhost/](http://localhost/)
 - phpMyAdmin: [http://localhost:8080/](http://localhost:8080/)
+
+## 補足事項
+教材内でPHPUNITテストに関し複数あるとの事だったので、今回はSQLiteを用いたテストを行ってみました。
+メール認証は複数候補があったので今回はMailhogを使用しています。
