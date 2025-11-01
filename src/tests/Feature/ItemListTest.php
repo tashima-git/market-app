@@ -65,7 +65,7 @@ class ItemListTest extends TestCase
         $user = User::first();
         $this->actingAs($user);
 
-        $response = $this->get('/');
+        $response = $this->actingAs($user)->get('/');
 
         // 自分の出品商品が表示されないことを確認
         $userItems = Item::where('user_id', $user->id)->get();
