@@ -32,7 +32,7 @@ class PurchaseController extends Controller
     }
 
     /**
-     * 商品購入処理
+     * 商品購入処理（フォーム送信）
      */
     public function store(Request $request, Item $item)
     {
@@ -54,35 +54,30 @@ class PurchaseController extends Controller
             return redirect()->route('items.index')->with('error', 'すでに購入された商品です');
         }
 
-        // 配送先住所をセッション優先で取得
+        // テスト環境の場合は Stripe をスキップして直接購入処理
+        if (App::environment('testing')) {
+            $this->createPurchase($item, $request->payment_method);
+            return redirect('/')->with('success', '商品購入が完了しました（テスト環境）');
+        }
+
+        // 本番環境では Stripe Checkout に遷移
+        return $this->checkout($request, $item);
+    }
+
+    /**
+     * Stripe Checkout セッション作成
+     */
+    public function checkout(Request $request, Item $item)
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $method = $request->payment_method === 'card' ? ['card'] : ['konbini'];
+
         $address = session('purchase_address', [
             'postal_code' => Auth::user()->profile->postal_code,
             'address' => Auth::user()->profile->address,
             'building_name' => Auth::user()->profile->building_name,
         ]);
-
-        // テスト環境の場合は Stripe をスキップして直接購入処理
-        if (App::environment('testing')) {
-            Purchase::create([
-                'user_id' => Auth::id(),
-                'item_id' => $item->id,
-                'payment_method' => $request->payment_method,
-                'sending_postcode' => $address['postal_code'],
-                'sending_address' => $address['address'],
-                'sending_building' => $address['building_name'],
-            ]);
-
-            $item->update(['status' => 'sold']);
-
-            return redirect('/')->with('success', '商品購入が完了しました（テスト環境）');
-        }
-
-        // 本番環境では Stripe Checkout を使用
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $method = $request->payment_method === 'card' ? ['card'] : ['konbini'];
-
-        $unitAmount = $item->price;
 
         $checkoutSession = \Stripe\Checkout\Session::create([
             'payment_method_types' => $method,
@@ -90,7 +85,7 @@ class PurchaseController extends Controller
                 'price_data' => [
                     'currency' => 'jpy',
                     'product_data' => ['name' => $item->name],
-                    'unit_amount' => $unitAmount,
+                    'unit_amount' => $item->price,
                 ],
                 'quantity' => 1,
             ]],
@@ -113,7 +108,7 @@ class PurchaseController extends Controller
     }
 
     /**
-     * トップページ用：Stripe決済完了時のフラッシュメッセージ
+     * Stripe決済成功後のフラッシュメッセージ
      */
     public function paymentSuccess(Request $request)
     {
@@ -122,5 +117,28 @@ class PurchaseController extends Controller
         }
 
         return redirect()->route('items.index');
+    }
+
+    /**
+     * DBに購入情報を作成
+     */
+    private function createPurchase(Item $item, string $paymentMethod)
+    {
+        $address = session('purchase_address', [
+            'postal_code' => Auth::user()->profile->postal_code,
+            'address' => Auth::user()->profile->address,
+            'building_name' => Auth::user()->profile->building_name,
+        ]);
+
+        Purchase::create([
+            'user_id' => Auth::id(),
+            'item_id' => $item->id,
+            'payment_method' => $paymentMethod,
+            'sending_postcode' => $address['postal_code'],
+            'sending_address' => $address['address'],
+            'sending_building' => $address['building_name'],
+        ]);
+
+        $item->update(['status' => 'sold']);
     }
 }

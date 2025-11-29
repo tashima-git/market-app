@@ -52,10 +52,12 @@ class ItemSearchTest extends TestCase
         $keyword = '時計';
 
         // 検索対象の商品を作成（または既存商品を取得）
-        $item = Item::where('name', 'like', "%{$keyword}%")->first();
+        $item = Item::where('name', 'like', "%{$keyword}%")
+        ->where('user_id', '!=', $user->id)
+        ->first();
 
         // ログインユーザーのお気に入りに追加
-        $user->favoriteItems()->attach($item->id);
+        $user->favoriteItems()->syncWithoutDetaching($item->id);
 
         // ホームページで検索
         $responseHome = $this->get('/?keyword=' . $keyword);

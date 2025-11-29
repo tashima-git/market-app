@@ -8,39 +8,40 @@
 
 @section('content')
 @php
-    // 配送先住所
+    // 配送先住所（セッション優先）
     $address = session('purchase_address', [
         'postal_code'   => auth()->user()->profile->postal_code,
         'address'       => auth()->user()->profile->address,
         'building_name' => auth()->user()->profile->building_name,
     ]);
 
-    // 支払い方法（old() があれば優先、なければセッション値）
+    // 支払い方法（old() 優先 → セッション → null）
     $selected_method = old('payment_method', $selected_method ?? null);
 @endphp
 
 <div class="container">
-    {{-- 左側 --}}
+    {{-- ============================= --}}
+    {{-- 左右2カラム構成 --}}
+    {{-- ============================= --}}
     <div class="left-section">
-        {{-- 商品情報 --}}
-        <div class="product-info">
-            <div class="product-image">
-                @if ($item->path)
-                    <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}">
-                @else
-                    <div class="placeholder">商品画像</div>
-                @endif
-            </div>
-            <div class="product-details">
-                <h2>{{ $item->name }}</h2>
-                <div class="underline"></div>
-                <p class="product-price">¥{{ number_format($item->price) }}</p>
-            </div>
-        </div>
-
-        {{-- 購入フォーム --}}
-        <form method="POST" action="{{ route('purchase.store', $item->id) }}">
+        <form method="POST" action="{{ route('purchase.checkout', $item->id) }}">
             @csrf
+
+            {{-- 商品情報 --}}
+            <div class="product-info">
+                <div class="product-image">
+                    @if ($item->path)
+                        <img src="{{ asset('storage/' . $item->path) }}" alt="{{ $item->name }}">
+                    @else
+                        <div class="placeholder">商品画像</div>
+                    @endif
+                </div>
+                <div class="product-details">
+                    <h2>{{ $item->name }}</h2>
+                    <div class="underline"></div>
+                    <p class="product-price">¥{{ number_format($item->price) }}</p>
+                </div>
+            </div>
 
             {{-- 支払い方法 --}}
             <div class="section">
@@ -55,7 +56,7 @@
                 @enderror
             </div>
 
-            {{-- 配送先 --}}
+            {{-- 配送先住所 --}}
             <div class="section delivery-section">
                 <div class="delivery-title">
                     <h3>配送先</h3>
@@ -70,14 +71,18 @@
                     <div class="address-text-wrapper">
                         <div class="address-text">
                             <div class="address">{{ $address['address'] }}</div>
-                            <div class="building-name">{{ $address['building_name'] ?? '' }}</div>
+                            @if (!empty($address['building_name']))
+                                <div class="building-name">{{ $address['building_name'] }}</div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
+    </div> {{-- ← left-section の閉じタグ --}}
 
-    {{-- 右側 --}}
+    {{-- ============================= --}}
+    {{-- 右側エリア（合計・購入ボタン） --}}
+    {{-- ============================= --}}
     <div class="right-section">
         <div class="summary-box">
             <div class="summary-row">
@@ -88,15 +93,23 @@
                 <span class="summary-label">支払い方法</span>
                 <span class="summary-value">
                     @switch($selected_method)
-                        @case('konbini') コンビニ払い @break
-                        @case('card') カード払い @break
-                        @default 未選択
+                        @case('konbini')
+                            コンビニ払い
+                            @break
+                        @case('card')
+                            カード払い
+                            @break
+                        @default
+                            未選択
                     @endswitch
                 </span>
             </div>
         </div>
+
+        {{-- 購入ボタン --}}
         <button type="submit" class="purchase-button">購入する</button>
     </div>
+
     </form>
 </div>
 @endsection

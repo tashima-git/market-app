@@ -126,3 +126,39 @@ body {
         margin: 10px 0 0 0;
     }
 }
+
+/* 既存のCSSの下に追加 */
+@media (max-width: 1540px) and (min-width: 1400px) {
+    .header {
+        flex-wrap: nowrap;
+        /* 折り返し禁止 */
+        gap: 12px;
+        /* 間隔を少し狭く */
+        padding: 16px 40px;
+        /* 左右余白を調整 */
+    }
+
+    .search-container {
+        flex-grow: 1;
+        margin: 0 40px;
+        /* 検索バーの左右余白を小さく */
+    }
+
+    .header-actions {
+        gap: 8px;
+        /* ボタン間をさらに詰める */
+    }
+
+    .header-btn,
+    .header-actions a,
+    .header-actions button {
+        font-size: 15px;
+        /* 若干小さくして収まりやすく */
+        padding: 5px 12px;
+    }
+
+    .logo-img {
+        height: 24px;
+        /* ロゴを少しだけ小さく */
+    }
+}

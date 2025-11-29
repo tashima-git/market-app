@@ -74,6 +74,12 @@ php artisan migrate
 php artisan db:seed
 ```
 
+8. シンボリックリンク（必要に応じて）
+```bash
+php artisan storage:link
+
+```
+
 ### テスト環境構築
 
 1. PHP コンテナ内のまま`.env` をコピーして `.env.testing` を作成
@@ -138,5 +144,5 @@ stripe listen --forward-to http://localhost:8000/webhook/stripe
 - phpMyAdmin: [http://localhost:8080/](http://localhost:8080/)
 
 ## 補足事項
-教材内でPHPUNITテストに関し複数あるとの事だったので、今回はSQLiteを用いたテストを行ってみました。
-メール認証は複数候補があったので今回はMailhogを使用しています。
+- 教材内でPHPUNITテストに関し複数あるとの事だったので、今回はSQLiteを用いたテストを行ってみました。
+- メール認証は複数候補があったので今回はMailhogを使用しています。

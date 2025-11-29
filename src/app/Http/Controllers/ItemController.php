@@ -56,6 +56,7 @@ class ItemController extends Controller
                 ->when(!empty($keyword), function ($query) use ($keyword) {
                     $query->where('name', 'like', "%{$keyword}%");
                 })
+                ->where('items.user_id', '!=', Auth::id())
                 ->latest()
                 ->get();
         } else {

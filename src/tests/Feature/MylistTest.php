@@ -24,7 +24,7 @@ class MylistTest extends TestCase
 
         // テスト用ユーザーと商品取得
         $this->user = User::first();
-        $allItems = Item::all();
+        $allItems = Item::where('user_id', '!=', $this->user->id)->get();
 
         // ユーザーのお気に入り（1件だけでもOK）
         $this->favoritedItems = $allItems->take(3);

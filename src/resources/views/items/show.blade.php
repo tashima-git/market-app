@@ -139,6 +139,9 @@
                     
                     @auth
                         <button type="submit" class="submit-button">コメントを送信する</button>
+                        @error('comment')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
                     @else
                         <a href="{{ route('login') }}" class="submit-button" style="display:block;text-align:center;text-decoration:none;">
                             コメントを送信する

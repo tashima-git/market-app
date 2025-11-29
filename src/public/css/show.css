@@ -358,6 +358,12 @@ header {
     background-color: #ff5252;
 }
 
+.error {
+    color: red;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
 /* レスポンシブ対応 */
 @media (min-width: 1400px) and (max-width: 1540px) {
     .container {
